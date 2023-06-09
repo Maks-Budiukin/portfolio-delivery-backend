@@ -13,14 +13,14 @@ const register = catchAsync(async (req, res, next) => {
 
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ phone });
 
   if (user?.registered) {
-    next(Conflict("Email is already in use"));
+    next(Conflict("Phone number is already in use"));
   }
 
   const newUser = await User.findOneAndUpdate(
-    { email },
+    { phone },
     {
       password: hashPassword,
       email,

@@ -23,7 +23,7 @@ const add = catchAsync(async (req, res, next) => {
   }
 
   const existUser = await User.findOneAndUpdate(
-    { email: user.email },
+    { phone: user.number },
     {
       email: user.email,
       name: user.name,
