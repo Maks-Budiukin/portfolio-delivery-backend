@@ -10,24 +10,24 @@ dotenv.config();
 const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
 
 const login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { phone, password } = req.body;
   const { error } = loginJoiSchema.validate(req.body);
   if (error) {
     next(BadRequest(error.message));
   }
 
-  const existUser = await User.findOne({ email }).select(
+  const existUser = await User.findOne({ phone }).select(
     "+password -updatedAt -createdAt -token"
   );
 
   if (!existUser || !existUser?.registered) {
-    next(Unauthorized("Email or password is wrong"));
+    next(Unauthorized("Phone number or password is wrong"));
   }
 
   const validPassword = await bcrypt.compare(password, existUser.password);
 
   if (!validPassword) {
-    next(Unauthorized("Email or password is wrong"));
+    next(Unauthorized("Phone number or password is wrong"));
   }
 
   const payload = {

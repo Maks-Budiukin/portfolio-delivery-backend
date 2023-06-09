@@ -19,6 +19,7 @@ const userSchema = Schema(
     phone: {
       type: String,
       required: [true, "Phone is required"],
+      unique: true,
     },
     address: {
       type: String,
@@ -43,7 +44,7 @@ const regJoiSchema = Joi.object({
   email: Joi.string().required().email(),
   phone: Joi.string().required(),
   password: Joi.string().min(6).max(30).required(),
-  address: Joi.string().allow('', null),
+  address: Joi.string().allow("", null),
 });
 
 const loginJoiSchema = Joi.object({
